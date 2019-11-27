@@ -7,5 +7,5 @@ resource "digitalocean_droplet" "wmts" {
     region = "fra1"
     size   = "s-1vcpu-1gb"
     ssh_keys = [25503420,24397269]
-	user_data = "${user-data.yml}"
+	user_data = "${file("./user-data.yml")}"
 }
