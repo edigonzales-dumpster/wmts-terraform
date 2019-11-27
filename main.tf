@@ -7,11 +7,5 @@ resource "digitalocean_droplet" "wmts" {
     region = "fra1"
     size   = "s-1vcpu-1gb"
     ssh_keys = [25503420,24397269]
-	user_data = << EOF
-		#! /bin/bash
-        sudo apt-get update
-		sudo apt-get install -y apache2
-		sudo systemctl start apache2
-		sudo systemctl enable apache2
-	EOF
+	user_data = "${user-data.yml}"
 }
