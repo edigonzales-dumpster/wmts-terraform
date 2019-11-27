@@ -1,6 +1,6 @@
 #cloud-config
 users:
-  - name: oerebuser
+  - name: appuser
     shell: /bin/bash
 
 package_upgrade: false
@@ -10,4 +10,4 @@ runcmd:
  - wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | sudo apt-key add -
  - add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
  - apt-get install --yes adoptopenjdk-8-hotspot
- - usermod -aG docker oerebuser 
+ - usermod -aG docker appuser 
