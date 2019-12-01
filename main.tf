@@ -1,7 +1,10 @@
+variable "environment" {
+}
+
 provider "digitalocean" {}
 
 resource "digitalocean_droplet" "wmts" {
-    name  = "wmts"
+    name  = "wmts-${var.environment}"
     #image = "ubuntu-18-04-x64"
     image = "docker-18-04"
     region = "fra1"
@@ -9,4 +12,12 @@ resource "digitalocean_droplet" "wmts" {
     ssh_keys = [25503420,24397269]
 	user_data = "${file("./user-data.yml")}"
     monitoring = true
+}
+
+resource "digitalocean_project" "playground" {
+  name        = "WMTS-${var.environment}"
+  description = "WMTS"
+  purpose     = "Web Application"
+  #environment = "Development"
+  resources   = [digitalocean_droplet.wmts.urn]
 }
