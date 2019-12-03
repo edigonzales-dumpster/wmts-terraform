@@ -14,3 +14,4 @@ runcmd:
  - su - appuser -c "docker swarm init --advertise-addr $(hostname -I | awk '{print $1}')" 
  #- su - appuser -c "docker volume create portainer_data" 
  #- su - appuser -c "docker run -d -p 8000:8000 -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer" 
+ 
