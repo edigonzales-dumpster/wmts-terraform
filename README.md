@@ -28,3 +28,6 @@ docker run -d -p 9443:9000 -p 8000:8000 --name portainer --restart always -v /va
 openssl genrsa -out /certs/portainer.key 2048
 openssl ecparam -genkey -name secp384r1 -out /certs/portainer.key
 openssl req -nodes -newkey rsa:2048 -keyout /certs/portainer.key -out /certs/portainer.crt -subj "/C=CH/ST=Solothurn/L=Solothurn/O=AGI/OU=SOGIS/CN=ssl.sogeo.services"
+
+
+https://community.letsencrypt.org/t/too-many-certificates-using-caddy-and-docker/54137/5
