@@ -9,8 +9,10 @@ runcmd:
  - apt update
  - mkdir --mode=0777 /pgdata
  - mkdir /certs
+ - mkdir --mode=0777 /tiles
  - usermod -aG docker appuser
  - chown -R appuser:appuser /certs
+ - chown -R appuser:appuser /tiles
  - su - appuser -c "openssl genrsa -out /certs/portainer.key 2048" 
  - su - appuser -c "openssl ecparam -genkey -name secp384r1 -out /certs/portainer.key" 
  - su - appuser -c "openssl req -new -x509 -sha256 -key /certs/portainer.key -out /certs/portainer.crt -days 3650 -subj '/C=CH/ST=Solothurn/L=Solothurn/O=AGI/OU=SOGIS/CN=ssl.sogeo.services'" 
