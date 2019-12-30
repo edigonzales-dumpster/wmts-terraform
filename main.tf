@@ -32,7 +32,8 @@ resource "digitalocean_droplet" "wmts" {
       - openssl genrsa -out /certs/ca.key 2048
       - openssl req -extensions v3_req -new -x509 -days 365 -key /certs/ca.key -subj '/C=CH/ST=Solothurn/L=Solothurn/O=AGI/OU=SOGIS/CN=wmts-t.sogeo.services' -out /certs/ca.crt
       - openssl req -extensions v3_req -newkey rsa:2048 -nodes -keyout /certs/server.key -subj '/C=CH/ST=Solothurn/L=Solothurn/O=AGI/OU=SOGIS/CN=wmts-t.sogeo.services' -out /certs/server.csr
-      - openssl x509 -req -extfile <(printf "subjectAltName=DNS:wmts-t.sogeo.services\nextendedKeyUsage=serverAuth,clientAuth") -days 365 -in /certs/server.csr -CA /certs/ca.crt -CAkey /certs/ca.key -CAcreateserial -out /certs/server.crt
+      #- openssl x509 -req -extfile <(printf "subjectAltName=DNS:wmts-t.sogeo.services\nextendedKeyUsage=serverAuth,clientAuth") -days 365 -in /certs/server.csr -CA /certs/ca.crt -CAkey /certs/ca.key -CAcreateserial -out /certs/server.crt
+      - [bash, openssl, x509, -reg, -extfile, <(printf "subjectAltName=DNS:wmts-t.sogeo.services\nextendedKeyUsage=serverAuth,clientAuth"), -days, 365, -in, /certs/server.csr, -CA, /certs/ca.crt, -CAkey, /certs/ca.key, -CAcreateserial, -out, /certs/server.crt]
       - usermod -aG docker appuser      
       - chown -R appuser:appuser /certs
       - chown -R appuser:appuser /tiles
