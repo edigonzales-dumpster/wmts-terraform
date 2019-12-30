@@ -1,5 +1,10 @@
 # wmts-terraform
 
+## Floating IP
+- wmts-t.sogeo.services: 157.245.24.18	
+- ... 
+
+
 ## Digitalocean API
 Get list of ssh keys:
 ```
