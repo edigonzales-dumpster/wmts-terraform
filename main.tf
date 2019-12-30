@@ -17,7 +17,7 @@ resource "digitalocean_droplet" "wmts" {
     size = "s-2vcpu-4gb"
     ssh_keys = [25503420,24397269]
 	#user_data = "${file("./user-data.yml")}"
-	user_data = "#cloud-config\n${jsonencode({
+	user_data = "#cloud-config\n${yamlencode({
     users:
     - name: appuser
     shell: /bin/bash
