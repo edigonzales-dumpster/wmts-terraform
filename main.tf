@@ -17,14 +17,10 @@ resource "digitalocean_droplet" "wmts" {
     size = "s-2vcpu-4gb"
     ssh_keys = [25503420,24397269]
 	#user_data = "${file("./user-data.yml")}"
-	user_data = "|
+	user_data = <<-EOF
 	#! /bin/bash
     sudo apt-get update
-	sudo apt-get install -y apache2
-	sudo systemctl start apache2
-	sudo systemctl enable apache2
-	echo '<h1>Deployed via Terraform</h1>' | sudo tee /var/www/html/index.html
-    "
+    EOF
     monitoring = true
     backups = false
 }
