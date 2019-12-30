@@ -19,17 +19,17 @@ resource "digitalocean_droplet" "wmts" {
 	#user_data = "${file("./user-data.yml")}"
 	user_data = "#cloud-config\n${jsonencode({
     users:
-      - name: appuser
-        shell: /bin/bash
+    - name: appuser
+    shell: /bin/bash
     package_upgrade: false
     runcmd:
-      - apt update
-      - mkdir --mode=0777 /pgdata
-      - mkdir /certs
-      - mkdir --mode=0777 /tiles
-      - usermod -aG docker appuser
-      - chown -R appuser:appuser /certs
-      - chown -R appuser:appuser /tiles
+    - apt update
+    - mkdir --mode=0777 /pgdata
+    - mkdir /certs
+    - mkdir --mode=0777 /tiles
+    - usermod -aG docker appuser
+    - chown -R appuser:appuser /certs
+    - chown -R appuser:appuser /tiles
     })}"
     monitoring = false
     backups = false
