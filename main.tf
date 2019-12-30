@@ -26,12 +26,16 @@ resource "digitalocean_droplet" "wmts" {
     runcmd:
       - apt update
       - mkdir --mode=0777 /pgdata
+      - mkdir /certs
       - mkdir --mode=0777 /tiles
       - openssl req -extensions v3_req -newkey rsa:2048 -nodes -keyout server.key -subj '/C=CH/ST=Solothurn/L=Solothurn/O=AGI/OU=SOGIS/CN=wmts-t.sogeo.services' -out server.csr
       - openssl x509 -req -extfile <(printf "subjectAltName=DNS:wmts-t.sogeo.services\nextendedKeyUsage=serverAuth,clientAuth") -days 365 -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt
       - usermod -aG docker appuser      
       - chown -R appuser:appuser /certs
       - chown -R appuser:appuser /tiles
+      - su - appuser -c "docker swarm init --advertise-addr $(hostname -I | awk '{print $1}')"
+      - su - appuser -c "docker volume create portainer_data" 
+      - su - appuser -c "docker run -d -p 9443:9000 -p 8000:8000 --name portainer --restart always -v /var/run/docker.sock:/var/run/docker.sock -v /certs:/certs -v portainer_data:/data portainer/portainer --ssl --sslcert /certs/server.crt --sslkey /certs/server.key"
     EOF
     monitoring = true
     backups = false
