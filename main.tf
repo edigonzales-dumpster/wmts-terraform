@@ -20,8 +20,8 @@ resource "digitalocean_droplet" "wmts" {
 	user_data = <<-EOF
     #cloud-config
     runcmd:
-    - apt update
-    - mkdir --mode=0777 /pgdata
+      - apt update
+      - mkdir --mode=0777 /pgdata
     EOF
     monitoring = true
     backups = false
