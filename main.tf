@@ -19,7 +19,9 @@ resource "digitalocean_droplet" "wmts" {
 	#user_data = "${file("./user-data.yml")}"
 	user_data = <<-EOF
 	#! /bin/bash
-    sudo apt-get update
+    apt-get update
+    mkdir --mode=0777 /pgdata
+    mkdir /certs
     EOF
     monitoring = true
     backups = false
