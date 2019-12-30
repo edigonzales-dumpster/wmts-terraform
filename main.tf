@@ -17,21 +17,15 @@ resource "digitalocean_droplet" "wmts" {
     size = "s-2vcpu-4gb"
     ssh_keys = [25503420,24397269]
 	#user_data = "${file("./user-data.yml")}"
-	user_data = "#cloud-config\n${yamlencode({
-    users:
-    - name: appuser
-    shell: /bin/bash
-    package_upgrade: false
-    runcmd:
-    - apt update
-    - mkdir --mode=0777 /pgdata
-    - mkdir /certs
-    - mkdir --mode=0777 /tiles
-    - usermod -aG docker appuser
-    - chown -R appuser:appuser /certs
-    - chown -R appuser:appuser /tiles
-    })}"
-    monitoring = false
+	user_data = "|
+	#! /bin/bash
+    sudo apt-get update
+	sudo apt-get install -y apache2
+	sudo systemctl start apache2
+	sudo systemctl enable apache2
+	echo '<h1>Deployed via Terraform</h1>' | sudo tee /var/www/html/index.html
+    "
+    monitoring = true
     backups = false
 }
 
