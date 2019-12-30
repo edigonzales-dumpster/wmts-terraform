@@ -19,9 +19,19 @@ resource "digitalocean_droplet" "wmts" {
 	#user_data = "${file("./user-data.yml")}"
 	user_data = <<-EOF
     #cloud-config
+    users:
+      - name: appuser
+        shell: /bin/bash
+    package_upgrade: false
     runcmd:
       - apt update
       - mkdir --mode=0777 /pgdata
+      - mkdir --mode=0777 /tiles
+      - openssl req -extensions v3_req -newkey rsa:2048 -nodes -keyout server.key -subj '/C=CH/ST=Solothurn/L=Solothurn/O=AGI/OU=SOGIS/CN=wmts-t.sogeo.services' -out server.csr
+      - openssl x509 -req -extfile <(printf "subjectAltName=DNS:wmts-t.sogeo.services\nextendedKeyUsage=serverAuth,clientAuth") -days 365 -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt
+      - usermod -aG docker appuser      
+      - chown -R appuser:appuser /certs
+      - chown -R appuser:appuser /tiles
     EOF
     monitoring = true
     backups = false
