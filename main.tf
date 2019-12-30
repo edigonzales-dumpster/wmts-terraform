@@ -30,9 +30,9 @@ resource "digitalocean_droplet" "wmts" {
       - mkdir --mode=0777 /tiles
       - usermod -aG docker appuser
       - openssl genrsa -out /certs/ca.key 2048
-      - openssl req -extensions v3_req -new -x509 -days 365 -key /certs/ca.key -subj '/C=CH/ST=Solothurn/L=Solothurn/O=AGI/OU=SOGIS/CN=${var.environment}-t.sogeo.services' -out /certs/ca.crt
-      - openssl req -extensions v3_req -newkey rsa:2048 -nodes -keyout /certs/server.key -subj '/C=CH/ST=Solothurn/L=Solothurn/O=AGI/OU=SOGIS/CN=${var.environment}-t.sogeo.services' -out /certs/server.csr
-      - echo "subjectAltName=DNS:${var.environment}-t.sogeo.services\nextendedKeyUsage=serverAuth,clientAuth" > /certs/config.file
+      - openssl req -extensions v3_req -new -x509 -days 365 -key /certs/ca.key -subj '/C=CH/ST=Solothurn/L=Solothurn/O=AGI/OU=SOGIS/CN=${var.subdomain}-t.sogeo.services' -out /certs/ca.crt
+      - openssl req -extensions v3_req -newkey rsa:2048 -nodes -keyout /certs/server.key -subj '/C=CH/ST=Solothurn/L=Solothurn/O=AGI/OU=SOGIS/CN=${var.subdomain}-t.sogeo.services' -out /certs/server.csr
+      - echo "subjectAltName=DNS:${var.subdomain}-t.sogeo.services\nextendedKeyUsage=serverAuth,clientAuth" > /certs/config.file
       - openssl x509 -req -extfile /certs/config.file -days 365 -in /certs/server.csr -CA /certs/ca.crt -CAkey /certs/ca.key -CAcreateserial -out /certs/server.crt
       - usermod -aG docker appuser      
       - chown -R appuser:appuser /certs
