@@ -18,9 +18,18 @@ resource "digitalocean_droplet" "wmts" {
     ssh_keys = [25503420,24397269]
 	#user_data = "${file("./user-data.yml")}"
 	user_data = "#cloud-config\n${jsonencode({
-    package_update  = true
-    package_upgrade = true
-    packages = ["nginx"]
+    users:
+      - name: appuser
+        shell: /bin/bash
+    package_upgrade: false
+    runcmd:
+      - apt update
+      - mkdir --mode=0777 /pgdata
+      - mkdir /certs
+      - mkdir --mode=0777 /tiles
+      - usermod -aG docker appuser
+      - chown -R appuser:appuser /certs
+      - chown -R appuser:appuser /tiles
     })}"
     monitoring = false
     backups = false
