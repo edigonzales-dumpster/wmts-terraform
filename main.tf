@@ -18,10 +18,10 @@ resource "digitalocean_droplet" "wmts" {
     ssh_keys = [25503420,24397269]
 	#user_data = "${file("./user-data.yml")}"
 	user_data = <<-EOF
-	#! /bin/bash
-    apt-get update
-    mkdir --mode=0777 /pgdata
-    mkdir /certs
+    #cloud-config
+    runcmd:
+    - apt update
+    - mkdir --mode=0777 /pgdata
     EOF
     monitoring = true
     backups = false
