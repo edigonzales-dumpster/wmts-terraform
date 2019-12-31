@@ -27,7 +27,8 @@ resource "digitalocean_droplet" "wmts" {
     runcmd:
       - apt update
       - mkdir --mode=0777 /pgdata
-      - mkdir /certs
+      - mkdir --mode=0777 /camel
+      - mkdir -p /certs/.caddy
       - mkdir --mode=0777 /tiles
       - usermod -aG docker appuser
       - openssl genrsa -out /certs/ca.key 2048
