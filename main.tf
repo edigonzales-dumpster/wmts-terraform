@@ -14,7 +14,8 @@ resource "digitalocean_droplet" "wmts" {
     image = "docker-18-04"
     region = "fra1"
     #size = "s-3vcpu-1gb"
-    size = "s-2vcpu-4gb"
+    #size = "s-2vcpu-4gb"
+    size = "s-4vcpu-8gb"
     ssh_keys = [25503420,24397269]
 	#user_data = "${file("./user-data.yml")}"
 	user_data = <<-EOF
